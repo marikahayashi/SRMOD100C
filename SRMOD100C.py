@@ -7,6 +7,7 @@ import binascii
 class SRMOD100CClass():
     def __init__(self, devname="/dev/ttyUSB0", baudrate=9600):
         self.devname = devname
+        #ボードの認識語句セットが変わった場合はここを編集すること
         self.phrase_table = (
             (),
             ("アクション", "進め", "曲がれ", "走れ", "見ろ", "攻撃", "止まれ", "こんにちは"),
@@ -18,6 +19,7 @@ class SRMOD100CClass():
         self.ntimeout = 10
         self.wordset = 5
 
+    #日本語に言語を設定する
     def set_language(self):
         while 1:
             self.seri.write("\x6c\x43")
@@ -25,7 +27,7 @@ class SRMOD100CClass():
             if (res == "\x6f"):
                 return 0;
         
-    def recog(self, wordset=5):
+    def recognize(self, wordset=5):
         self.wordset = wordset
         self.seri.write("\x69")
         self.seri.write(self.convert_number_txchar(self.wordset))
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     srmod100c = SRMOD100CClass("/dev/ttyUSB0")
     srmod100c.set_language()
     while 1:
-        recogres = srmod100c.recog(5)
+        recogres = srmod100c.recognize(5)
         print recogres
         if (recogres > 0):
             print srmod100c.convert_recogres_japanese(recogres)
