@@ -66,10 +66,10 @@ class SRMOD100CClass():
         self.seri.close()
     
 if __name__ == "__main__":
-    srmod100c = SRMOD100CClass()
+    srmod100c = SRMOD100CClass("/dev/ttyUSB0")
     srmod100c.set_language()
     while 1:
-        recogres = srmod100c.recog(1)
+        recogres = srmod100c.recog(5)
         print recogres
         if (recogres > 0):
             print srmod100c.convert_recogres_japanese(recogres)
